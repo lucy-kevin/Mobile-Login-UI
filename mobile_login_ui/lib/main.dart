@@ -162,7 +162,7 @@ class SocialMediaButtons extends StatelessWidget {
             buttonIcon,
             color: const Color(0xFF1391F8),
           ),
-          Gap(10),
+          const Gap(10),
           Text(buttonName)
         ],
       ),
