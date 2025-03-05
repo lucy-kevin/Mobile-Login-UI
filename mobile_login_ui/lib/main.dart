@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
 
 void main() {
   runApp(const MyApp());
@@ -6,120 +8,190 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  late bool isChecked;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Gap(160),
+                const Text(
+                  'Welcome back!',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+                const Text("Please login to your account to continue"),
+                const Gap(50),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SocialMediaButtons(
+                        buttonName: "Facebook", buttonIcon: Icons.facebook),
+                    SocialMediaButtons(
+                        buttonName: "Twitter",
+                        buttonIcon: FontAwesomeIcons.twitter),
+                  ],
+                ),
+                const Gap(30),
+                const Text("Email Address"),
+                const TextFieldWidget(
+                  hint: 'example@gmail.com',
+                  isPassword: false,
+                ),
+                const Gap(15),
+                const Text("Password"),
+                const TextFieldWidget(hint: "Password", isPassword: true),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: false,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isChecked = value!;
+                              });
+                            }),
+                        const Text("Remember me"),
+                      ],
+                    ),
+                    const Text("Forgot Password")
+                  ],
+                ),
+                const Gap(10),
+                Center(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          height: 50,
+                          width: 297,
+                          decoration: const BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
+                          child: const Center(
+                              child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white),
+                          )),
+                        ),
+                      ),
+                      const Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: "Don't have an account? ",
+                            style: TextStyle(fontWeight: FontWeight.w500)),
+                        TextSpan(
+                            text: "Sign Up",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w700))
+                      ])),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        ),
+      ),
+    );
   }
+}
+
+class SocialMediaButtons extends StatelessWidget {
+  final String buttonName;
+  final IconData buttonIcon;
+  const SocialMediaButtons(
+      {super.key, required this.buttonName, required this.buttonIcon});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+    return Container(
+      height: 50,
+      width: MediaQuery.of(context).size.width * .44,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: const Color.fromARGB(255, 124, 124, 124)),
+          boxShadow: const [
+            BoxShadow(
+                color: Color.fromARGB(255, 167, 164, 164),
+                spreadRadius: 0.4,
+                blurRadius: 8)
           ],
-        ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          )),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            buttonIcon,
+            color: const Color(0xFF1391F8),
+          ),
+          Gap(10),
+          Text(buttonName)
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  final String hint;
+  final bool isPassword;
+  const TextFieldWidget(
+      {super.key, required this.hint, required this.isPassword});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      obscureText: isPassword,
+      keyboardType:
+          isPassword ? TextInputType.visiblePassword : TextInputType.text,
+      decoration: InputDecoration(
+          focusColor: Colors.blue,
+          border: OutlineInputBorder(
+            borderSide:
+                const BorderSide(style: BorderStyle.solid, color: Colors.black),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          contentPadding: const EdgeInsets.all(10),
+          suffixIcon: isPassword ? const Icon(Icons.remove_red_eye) : null,
+          hintText: hint),
     );
   }
 }
